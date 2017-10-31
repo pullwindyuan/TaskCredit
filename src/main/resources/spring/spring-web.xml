@@ -34,6 +34,68 @@
     </bean>
 
     <!-- 4.扫描web相关的bean -->
-    <context:component-scan base-package="cn.cvte.controller"/>
+    <context:component-scan base-package="cn.cvte"/>
+
+    <!-- 配置springMVC -->
+    <!-- 开SpringMVC注解模式 -->
+    <!--1.简化配置：
+        1.自动注册DefaultAnnotationHandlerMapping，AnnotationMethodHandlerAdapter
+        2.提供一系列数据绑定，数据和日期的format，xml、json默认的读写支持
+     -->
+    <mvc:annotation-driven/>
+
+    <!-- 2.静态资源默认servlet配置
+        1.加入对静态资源的处理：js,gif,png
+        2.允许使用“/”做整体映射
+    -->
+    <mvc:default-servlet-handler/>
+
+    <!-- 3.配置jsp显示的ViewResolver -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+
+        <property name="viewClass"  value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+
+    </bean>
+
+
+    <!--<context:property-placeholder location="classpath:jdbc.properties"/>-->
+    <!--&lt;!&ndash;配置数据库的连接池&ndash;&gt;-->
+    <!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">-->
+    <!--&lt;!&ndash;配置连接池的属性&ndash;&gt;-->
+    <!--<property name="driverClass" value="${jdbc.driver}"/>-->
+    <!--<property name="jdbcUrl" value="${jdbc.url}"/>-->
+    <!--<property name="user" value="${username}"/>-->
+    <!--<property name="password" value="${password}"/>-->
+
+    <!--&lt;!&ndash; c3p0连接池的私有属性&ndash;&gt;-->
+    <!--<property name="maxPoolSize" value="100"/>-->
+    <!--<property name="minPoolSize" value="50"/>-->
+    <!--<property name="autoCommitOnClose" value="false"/>-->
+    <!--&lt;!&ndash; 获取连接，超时时间设置 &ndash;&gt;-->
+    <!--<property name="checkoutTimeout" value="100000"/>-->
+    <!--&lt;!&ndash; 当获取连接失败，重试次数 &ndash;&gt;-->
+    <!--<property name="acquireRetryAttempts" value="2"/>-->
+
+    <!--</bean>-->
+
+
+    <!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" >-->
+
+        <!--&lt;!&ndash; 加载mybatis的配置信息 &ndash;&gt;-->
+        <!--&lt;!&ndash;<property name="configLocation" value="cn/labelnet/mybatis/config/SqlmapDaoConfig.xml"></property>&ndash;&gt;-->
+
+        <!--&lt;!&ndash; 加载数据源  dataSource&ndash;&gt;-->
+        <!--<property name="dataSource" ref="dataSource"></property>-->
+
+    <!--</bean>-->
+
+    <!--<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
+        <!--&lt;!&ndash;com.dao是mapper类所在的包&ndash;&gt;-->
+        <!--<property name="basePackage" value="cn.pingweb.mapper"/>-->
+        <!--&lt;!&ndash;下面这个省略掉的话也不会出错，建议保留它&ndash;&gt;-->
+        <!--<property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
+    <!--</bean>-->
 
 </beans>
