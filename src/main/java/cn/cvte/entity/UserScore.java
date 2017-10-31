@@ -1,8 +1,9 @@
 package cn.cvte.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class UserScore {
+public class UserScore implements Serializable {
     private String uid;
     private String phone;
     private int score;

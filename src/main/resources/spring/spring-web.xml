@@ -2,13 +2,16 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/mvc
-       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!-- 配置springMVC -->
     <!-- 开SpringMVC注解模式 -->
@@ -43,6 +46,7 @@
         2.提供一系列数据绑定，数据和日期的format，xml、json默认的读写支持
      -->
     <mvc:annotation-driven/>
+    <aop:aspectj-autoproxy/>
 
     <!-- 2.静态资源默认servlet配置
         1.加入对静态资源的处理：js,gif,png

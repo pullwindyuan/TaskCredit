@@ -35,6 +35,8 @@
         <!--<property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
     </bean>
 
+    <context:component-scan base-package="cn.cvte.dao"/>
+
 
     <!--<context:property-placeholder location="classpath:jdbc.properties"/>-->
     <!--&lt;!&ndash;配置数据库的连接池&ndash;&gt;-->

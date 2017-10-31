@@ -1,5 +1,6 @@
 package cn.cvte.dao.mapper;
 
+import cn.cvte.dao.cache.RedisCacheConfig;
 import cn.cvte.entity.TaskHistory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +18,9 @@ public class TaskHistoryDaoTest {
 
     @Autowired
     private TaskHistoryDao taskHistoryDao;
+
+    @Autowired
+    private RedisCacheConfig redisCacheConfig;
 
     @Test
     public void getHistoryByUid() throws Exception {
