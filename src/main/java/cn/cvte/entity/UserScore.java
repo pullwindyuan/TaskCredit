@@ -1,11 +1,18 @@
 package cn.cvte.entity;
 
-public class User {
+import java.util.Date;
+
+public class UserScore {
     private String uid;
     private String phone;
     private int score;
+    private Date createTime;
+    private Date updateTime;
 
-    public User(String uid, String phone, int score) {
+    public UserScore() {
+    }
+
+    public UserScore(String uid, String phone, int score) {
         this.uid = uid;
         this.phone = phone;
         this.score = score;
@@ -33,5 +40,21 @@ public class User {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

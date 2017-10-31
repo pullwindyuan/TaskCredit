@@ -12,6 +12,9 @@ public class TaskRecord {
     private Date createTime;
     private Date updateTime;
 
+    public TaskRecord() {
+    }
+
     public TaskRecord(String uid, int tid, int history, int step, int score, int state, Date createTime, Date updateTime) {
         this.uid = uid;
         this.tid = tid;
