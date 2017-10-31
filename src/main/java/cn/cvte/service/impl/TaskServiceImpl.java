@@ -12,6 +12,7 @@ import cn.cvte.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -50,7 +51,18 @@ public class TaskServiceImpl implements TaskService{
     }
 
     public ResponseDto getTaskList(String uid) {
-        return null;
+        List<TaskModel> modelList = taskModelDao.getAll();
+        List<Task> taskList = new ArrayList<Task>();
+        for (TaskModel taskModel : modelList) {
+            int tid = taskModel.getTid();
+            TaskRecord taskRecord = taskRecordDao.getRecordByUidAndTid(uid, tid);
+            if (taskRecord == null) {
+                taskRecord = TaskRecord.initCreateRecord(uid, tid);
+            }
+            int joinNum = taskRecordDao.getNumByTid(tid);
+            taskList.add(new Task(taskRecord, taskModel, joinNum));
+        }
+        return taskList;
     }
 
     public ResponseDto getTaskDetail(String uid, int tid) {

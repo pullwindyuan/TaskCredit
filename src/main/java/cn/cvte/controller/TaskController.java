@@ -5,10 +5,12 @@ import cn.cvte.enums.ResultCode;
 import cn.cvte.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+/**
+ * 内部使用/api/task/
+ * 外部使用/application/task
+ */
 @Controller
 @RequestMapping("/task")
 public class TaskController {
@@ -16,7 +18,7 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
-    @RequestMapping(value = "/receive",
+    @RequestMapping(value = "/{tid}/receive",
             method = RequestMethod.POST,
             produces = {"application/json;charset=UTF-8"})
     @ResponseBody
@@ -26,7 +28,7 @@ public class TaskController {
 
 
     @RequestMapping(value = "/{tid}/finish/",
-            method = RequestMethod.POST,
+            method = RequestMethod.PUT,
             produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public ResponseDto doTask(String uid, int tid) {
@@ -37,7 +39,8 @@ public class TaskController {
             method = RequestMethod.GET,
             produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public ResponseDto getTaskDetail(String uid, int tid) {
+    public ResponseDto getTaskDetail(@CookieValue("uid") String uid,
+                                     @PathVariable("tid")int tid) {
         return taskService.getTaskDetail(uid, tid);
     }
 
@@ -45,7 +48,8 @@ public class TaskController {
             method = RequestMethod.GET,
             produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public ResponseDto getTaskList(String uid, int tid) {
-        return taskService.getTaskDetail(uid, tid);
+    public ResponseDto getTaskList(String uid) {
+
+        return taskService.getTaskList(uid);
     }
 }

@@ -47,4 +47,13 @@ public class TaskModel {
         return step<=0 ? 0 : Integer.valueOf(scores[step-1]);
     }
 
+    public int getTotalScore() {
+        String[] scores = this.score.split(",");
+        int result = 0;
+        for (String score : scores) {
+            result += Integer.valueOf(score);
+        }
+        return result;
+    }
+
 }

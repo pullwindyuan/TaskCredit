@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -19,6 +20,9 @@ public interface TaskRecordDao {
 
     @Select("select * from task_record where uid=#{uid} and tid=#{tid}")
     public TaskRecord getRecordByUidAndTid(@Param("uid") String uid, @Param("tid") int tid);
+
+    @Select("select count(*) from task_record where tid=#{tid} and state>-1")
+    public int getNumByTid(@Param("tid") int tid);
 
     @Update("update task_record set history=#{history}, step=#{step}, score=#{score}, updateTime=#{updateTime}" +
             " where uid=#{uid} and tid=#{tid}")
