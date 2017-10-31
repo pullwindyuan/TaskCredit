@@ -8,11 +8,15 @@ public class TaskRecord {
     private int history;    // 历史任务完成总次数
     private int step;       // 当前完成到第几步
     private int score;      // 当前任务获得积分
-    private int state;      // 完成完成状态
+    private int state;      // 完成状态 -1未领取 0进行中 1已完成
     private Date createTime;
     private Date updateTime;
 
     public TaskRecord() {
+    }
+
+    public static TaskRecord initCreateRecord(String uid, int tid) {
+        return new TaskRecord(uid, tid, 0, 0, 0, 0, new Date(), new Date());
     }
 
     public TaskRecord(String uid, int tid, int history, int step, int score, int state, Date createTime, Date updateTime) {

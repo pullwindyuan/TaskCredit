@@ -153,15 +153,8 @@
     <!-- spring aop支持 -->
     <dependency>
       <groupId>org.springframework</groupId>
-      <artifactId>spring-aop</artifactId>
+      <artifactId>spring-aspects</artifactId>
       <version>4.1.7.RELEASE</version>
-    </dependency>
-
-    <!-- aspectj支持 -->
-    <dependency>
-      <groupId>org.aspectj</groupId>
-      <artifactId>aspectjrt</artifactId>
-      <version>1.8.9</version>
     </dependency>
 
   </dependencies>

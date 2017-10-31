@@ -51,12 +51,24 @@ public class ResponseDto {
         return new ResponseDto(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg(), map);
     }
 
+    public static ResponseDto success() {
+        return new ResponseDto(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg());
+    }
+
     public static ResponseDto fail() {
         return new ResponseDto(ResultCode.FAIL.getCode(), ResultCode.FAIL.getMsg());
     }
 
+    public static ResponseDto fali(String msg) {
+        return new ResponseDto(ResultCode.FAIL.getCode(), msg);
+    }
+
     public static ResponseDto erro() {
         return new ResponseDto(ResultCode.ERRO.getCode(), ResultCode.ERRO.getMsg());
+    }
+
+    public static ResponseDto erro(String msg) {
+        return new ResponseDto(ResultCode.ERRO.getCode(), msg);
     }
 
 }

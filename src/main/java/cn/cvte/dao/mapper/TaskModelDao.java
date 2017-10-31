@@ -10,4 +10,7 @@ public interface TaskModelDao {
     @Select("select * from task;")
     public List<TaskModel> getAll();
 
+    @Select("select * from task where tid=#{tid};")
+    public TaskModel getByTid(int tid);
+
 }

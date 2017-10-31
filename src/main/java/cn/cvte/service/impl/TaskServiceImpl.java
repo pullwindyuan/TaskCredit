@@ -3,7 +3,9 @@ package cn.cvte.service.impl;
 import cn.cvte.dao.mapper.TaskModelDao;
 import cn.cvte.dao.mapper.TaskRecordDao;
 import cn.cvte.dao.mapper.UserScoreDao;
+import cn.cvte.dto.ResponseDto;
 import cn.cvte.dto.Task;
+import cn.cvte.entity.TaskModel;
 import cn.cvte.entity.TaskRecord;
 import cn.cvte.entity.UserScore;
 import cn.cvte.service.TaskService;
@@ -24,9 +26,16 @@ public class TaskServiceImpl implements TaskService{
     @Autowired
     private TaskRecordDao taskRecordDao;
 
-    public boolean receiveTask(String uid, int tid) throws Exception {
-        TaskRecord taskRecord = taskRecordDao.getRecordByUidAndTid(uid, tid);
-        throw new Exception("test");
+    public ResponseDto receiveTask(String uid, int tid) {
+        //TaskRecord taskRecord = taskRecordDao.getRecordByUidAndTid(uid, tid);
+        TaskModel model = taskModelDao.getByTid(tid);
+        if (model == null)
+            return ResponseDto.fail();
+        TaskRecord taskRecord = TaskRecord.initCreateRecord(uid, tid);
+        int insertCount = taskRecordDao.insert(taskRecord);
+        if (insertCount <= 0)
+            return ResponseDto.fail();
+        return ResponseDto.success();
 //        if (1==1) {
 //            //taskRecordDao.updateRecord();
 //            return true;
@@ -36,15 +45,16 @@ public class TaskServiceImpl implements TaskService{
 
     }
 
-    public boolean doTask(String uid, int tid) {
-        return false;
-    }
-
-    public List<Task> getTaskList(String uid) {
+    public ResponseDto doTask(String uid, int tid) {
         return null;
     }
 
-    public Task getTaskDetail(String uid, int tid) {
+    public ResponseDto getTaskList(String uid) {
         return null;
+    }
+
+    public ResponseDto getTaskDetail(String uid, int tid) {
+
+        return ResponseDto.success();
     }
 }

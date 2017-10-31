@@ -1,8 +1,8 @@
 package cn.cvte.aop.exception;
 
+import cn.cvte.dto.ResponseDto;
 import cn.cvte.enums.ResultCode;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -16,7 +16,7 @@ public class ControllerAopException {
 
     private static final Logger logger = LoggerFactory.getLogger(ControllerAopException.class);
 
-    /*@Pointcut("execution(* cn.cvte.controller.*(..))")
+    @Pointcut("execution(* cn.cvte.controller.*(..))")
     public void exception(){}
 
     @Around("exception()")
@@ -25,12 +25,12 @@ public class ControllerAopException {
         try {
             result = pjp.proceed();
         } catch (Exception e) {
-            result = ResultCode.ERRO;
+            result = ResponseDto.erro();
             e.printStackTrace();
             logger.error("");
         }
         return result;
-    }*/
+    }
 
     @Pointcut("execution(* cn.cvte.service..*(..))")
     public void service(){}
