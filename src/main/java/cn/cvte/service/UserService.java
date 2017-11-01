@@ -1,5 +1,7 @@
 package cn.cvte.service;
 
-public interface UserService {
+import cn.cvte.dto.ResponseDto;
 
+public interface UserService {
+    String login(String phone);
 }

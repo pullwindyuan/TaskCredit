@@ -24,7 +24,7 @@ public interface TaskRecordDao {
     @Select("select count(*) from task_record where tid=#{tid} and state>-1")
     public int getNumByTid(@Param("tid") int tid);
 
-    @Update("update task_record set history=#{history}, step=#{step}, score=#{score}, updateTime=#{updateTime}" +
+    @Update("update task_record set history=#{history},step=#{step},score=#{score},state=#{state},updateTime=#{updateTime}" +
             " where uid=#{uid} and tid=#{tid}")
     public int updateRecord(TaskRecord taskRecord);
 

@@ -2,8 +2,10 @@ package cn.cvte.dto;
 
 import cn.cvte.enums.ResultCode;
 
+import java.io.Serializable;
 
-public class ResponseDto {
+
+public class ResponseDto implements Serializable{
     private int code;
     private String msg;
     //private Map<String, Object> data;

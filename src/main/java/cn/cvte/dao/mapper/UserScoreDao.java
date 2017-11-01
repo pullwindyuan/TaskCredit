@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Update;
 
 public interface UserScoreDao {
 
-    @Insert("insert into user_score(uid, phone, score) values(#{uid},#{phone},#{score})")
+    @Insert("insert into user_score(uid, phone, score,createTime,updateTime) values(#{uid},#{phone},#{score},#{createTime},#{updateTime})")
     public int insert(UserScore userScore);
 
     @Select("select * from user_score where uid=#{uid}")

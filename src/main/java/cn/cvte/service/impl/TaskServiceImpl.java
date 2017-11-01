@@ -105,8 +105,7 @@ public class TaskServiceImpl implements TaskService{
             taskList.add(new Task(taskRecord, taskModel, joinNum));
         }
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("taskList", taskList);
-        return ResponseDto.success(new HashMap<String, Object>());
+        return ResponseDto.success(taskList);
     }
 
     public ResponseDto getTaskDetail(String uid, int tid) {

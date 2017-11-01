@@ -3,6 +3,7 @@ package cn.cvte.controller;
 import cn.cvte.dto.ResponseDto;
 import cn.cvte.enums.ResultCode;
 import cn.cvte.service.TaskService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,16 +23,18 @@ public class TaskController {
             method = RequestMethod.POST,
             produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public ResponseDto receiveTask(String uid, int tid) {
+    public ResponseDto receiveTask(@RequestParam("uid") String uid,
+                                   @PathVariable("tid") int tid) {
         return taskService.receiveTask(uid, tid);
     }
 
 
-    @RequestMapping(value = "/{tid}/finish/",
-            method = RequestMethod.PUT,
+    @RequestMapping(value = "/{tid}/finish",
+            method = RequestMethod.POST,
             produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public ResponseDto doTask(String uid, int tid) {
+    public ResponseDto doTask(@RequestParam("uid") String uid,
+                              @PathVariable("tid") int tid) {
         return taskService.doTask(uid, tid);
     }
 

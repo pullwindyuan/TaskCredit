@@ -17,6 +17,8 @@ public class UserScore implements Serializable {
         this.uid = uid;
         this.phone = phone;
         this.score = score;
+        this.createTime = new Date();
+        this.updateTime = new Date();
     }
 
     public String getUid() {
