@@ -12,11 +12,15 @@ public class TaskRecord {
     private Date createTime;
     private Date updateTime;
 
+    public static final int STATE_INIT = -1;
+    public static final int STATE_ING = 0;
+    public static final int STATE_FINISHED = 1;
+
     public TaskRecord() {
     }
 
     public static TaskRecord initCreateRecord(String uid, int tid) {
-        return new TaskRecord(uid, tid, 0, 0, 0, 0, new Date(), new Date());
+        return new TaskRecord(uid, tid, 0, 0, 0, STATE_INIT, new Date(), new Date());
     }
 
     public TaskRecord(String uid, int tid, int history, int step, int score, int state, Date createTime, Date updateTime) {

@@ -5,44 +5,42 @@ import cn.cvte.entity.TaskModel;
 import cn.cvte.manager.TaskModelManager;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Component
+//@Component
 public class TaskModelManagerImpl implements TaskModelManager, InitializingBean {
 
-    private Map<Integer, TaskModel> taskModelMap = new HashMap<Integer, TaskModel>();
+    private static final String INDEX_TID = "task_tid_";
+    private static final String INDEX_TYPE = "task_type_";
+    private static final String INDEX_LIST = "task_list_";
+
     @Autowired
     private TaskModelDao taskModelDao;
-
-    private void init() {
-        List<TaskModel> taskModelList = taskModelDao.getAll();
-        for(TaskModel taskModel : taskModelList) {
-            taskModelMap.put(taskModel.getTid(), taskModel);
-        }
-    }
-
-    public void afterPropertiesSet() throws Exception {
-        init();
-    }
 
 
     public void clearUserCache() {
 
     }
 
-    public void updateTaskRecord() {
+    @Cacheable(value="task", key="#tid")
+    public TaskModel getTaskModelByTid(int tid) {
+        return taskModelDao.getByTid(tid);
+    }
+
+    public List<TaskModel> getTaskModelListByType(int type) {
+        return null;
+    }
+
+    private void init() {
 
     }
 
-    public void updateUserScore() {
-
-    }
-
-    public void updateTaskHistory() {
+    public void afterPropertiesSet() throws Exception {
 
     }
 }

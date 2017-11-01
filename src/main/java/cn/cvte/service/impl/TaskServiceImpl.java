@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TaskServiceImpl implements TaskService{
@@ -33,6 +35,7 @@ public class TaskServiceImpl implements TaskService{
         if (model == null)
             return ResponseDto.fail();
         TaskRecord taskRecord = TaskRecord.initCreateRecord(uid, tid);
+        taskRecord.setState(TaskRecord.STATE_ING);
         int insertCount = taskRecordDao.insert(taskRecord);
         if (insertCount <= 0)
             return ResponseDto.fail();
@@ -56,17 +59,20 @@ public class TaskServiceImpl implements TaskService{
         for (TaskModel taskModel : modelList) {
             int tid = taskModel.getTid();
             TaskRecord taskRecord = taskRecordDao.getRecordByUidAndTid(uid, tid);
+            // 为空则创建一个初始值，不写入数据
             if (taskRecord == null) {
                 taskRecord = TaskRecord.initCreateRecord(uid, tid);
             }
+            // 获得参加任务总人数
             int joinNum = taskRecordDao.getNumByTid(tid);
             taskList.add(new Task(taskRecord, taskModel, joinNum));
         }
-        return taskList;
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("taskList", taskList);
+        return ResponseDto.success(new HashMap<String, Object>());
     }
 
     public ResponseDto getTaskDetail(String uid, int tid) {
-
         return ResponseDto.success();
     }
 }

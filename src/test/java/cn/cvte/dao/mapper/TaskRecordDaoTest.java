@@ -21,7 +21,7 @@ public class TaskRecordDaoTest {
 
     @Test
     public void insert() throws Exception {
-        TaskRecord record = new TaskRecord("testUid", 1, 1, 0, 0, -1, new Date(), new Date());
+        TaskRecord record = new TaskRecord("testUid", 4, 1, 1, 0, 0, new Date(), new Date());
         taskRecordDao.insert(record);
     }
 

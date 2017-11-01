@@ -12,21 +12,21 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration({"classpath:spring/spring-*.xml"})
 public class UserTaskDataManagerImplTest {
 
-    @Autowired
-    private UserTaskDataManager userTaskDataManager;
-
-    @Test
-    public void getTaskRecord() throws Exception {
-    }
-
-    @Test
-    public void getUserScore() throws Exception {
-        UserScore userScore = userTaskDataManager.getUserScore("testUid2");
-        System.out.println(userScore.getScore());
-    }
-
-    @Test
-    public void getTaskHistory() throws Exception {
-    }
+//    @Autowired
+//    private UserTaskDataManager userTaskDataManager;
+//
+//    @Test
+//    public void getTaskRecord() throws Exception {
+//    }
+//
+//    @Test
+//    public void getUserScore() throws Exception {
+//        UserScore userScore = userTaskDataManager.getUserScore("testUid2");
+//        System.out.println(userScore.getScore());
+//    }
+//
+//    @Test
+//    public void getTaskHistory() throws Exception {
+//    }
 
 }

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class UserTaskDataManagerImpl implements UserTaskDataManager {
 
     @Autowired

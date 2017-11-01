@@ -1,12 +1,15 @@
 package cn.cvte.manager;
 
+import cn.cvte.entity.TaskModel;
+
+import java.util.List;
+
 public interface TaskModelManager {
 
     void clearUserCache();
 
-    void updateTaskRecord();
+    TaskModel getTaskModelByTid(int tid);
 
-    void updateUserScore();
+    List<TaskModel> getTaskModelListByType(int type);
 
-    void updateTaskHistory();
 }

@@ -16,7 +16,7 @@ public class ControllerAopException {
 
     private static final Logger logger = LoggerFactory.getLogger(ControllerAopException.class);
 
-    @Pointcut("execution(* cn.cvte.controller.*(..))")
+    @Pointcut("execution(* cn.cvte.controller..*(..))")
     public void exception(){}
 
     @Around("exception()")
@@ -25,7 +25,7 @@ public class ControllerAopException {
         try {
             result = pjp.proceed();
         } catch (Exception e) {
-            result = ResponseDto.erro();
+            result = ResponseDto.erro("服务器异常");
             e.printStackTrace();
             logger.error("");
         }
