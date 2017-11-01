@@ -8,6 +8,7 @@ import cn.cvte.dto.Task;
 import cn.cvte.entity.TaskModel;
 import cn.cvte.entity.TaskRecord;
 import cn.cvte.entity.UserScore;
+import cn.cvte.manager.TaskModelManager;
 import cn.cvte.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,11 @@ import java.util.Map;
 @Service
 public class TaskServiceImpl implements TaskService{
 
+//    @Autowired
+//    private TaskModelDao taskModelDao;
+
     @Autowired
-    private TaskModelDao taskModelDao;
+    private TaskModelManager taskModelManager;
 
     @Autowired
     private UserScoreDao userScoreDao;
@@ -37,8 +41,9 @@ public class TaskServiceImpl implements TaskService{
      */
     public ResponseDto receiveTask(String uid, int tid) {
         TaskRecord taskRecord = taskRecordDao.getRecordByUidAndTid(uid, tid);
-        TaskModel model = taskModelDao.getByTid(tid);
-        if (model == null)
+        //TaskModel taskModel = taskModelDao.getByTid(tid);
+        TaskModel taskModel = taskModelManager.getTaskModelByTid(tid);
+        if (taskModel == null)
             return ResponseDto.fail();
         // 为空则插入数据，不为空则刷新任务状态
         if (taskRecord == null) {
@@ -63,7 +68,8 @@ public class TaskServiceImpl implements TaskService{
 
     public ResponseDto doTask(String uid, int tid) {
         TaskRecord taskRecord = taskRecordDao.getRecordByUidAndTid(uid, tid);
-        TaskModel taskModel = taskModelDao.getByTid(tid);
+        // TaskModel taskModel = taskModelDao.getByTid(tid);
+        TaskModel taskModel = taskModelManager.getTaskModelByTid(tid);
         UserScore userScore = userScoreDao.getUserByUid(uid);
         if (taskModel == null)
             return ResponseDto.fail();
@@ -91,7 +97,8 @@ public class TaskServiceImpl implements TaskService{
     }
 
     public ResponseDto getTaskList(String uid) {
-        List<TaskModel> modelList = taskModelDao.getAll();
+        // List<TaskModel> modelList = taskModelDao.getAll();
+        List<TaskModel> modelList = taskModelManager.getAll();
         List<Task> taskList = new ArrayList<Task>();
         for (TaskModel taskModel : modelList) {
             int tid = taskModel.getTid();

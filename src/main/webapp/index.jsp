@@ -67,8 +67,8 @@
                         var stateNode = "<br/><span>" + state + "</span>";
                         var scoreNode = "<br/><span>" + "进度：" +data.curScore +"/" + data.totalScore + "</span>";
                         var joinNumNode = "<br/><span>参与人数:" + data.joinNum + "</span>";
-                        var rbtn = "<br/><button id= 'rbtn' value='" + list[i].tid + "'>领取</button>";
-                        var dbtn = "<button id= 'dbtn' value='" + list[i].tid + "'>做任务</button>";
+                        var rbtn = "<br/><button class='rbtn' value='" + list[i].tid + "'>领取</button>";
+                        var dbtn = "<button class='dbtn' value='" + list[i].tid + "'>做任务</button>";
                         $(node).append("<div>"+list[i].desc
                             + stateNode + scoreNode
                             + joinNumNode + rbtn + dbtn
@@ -88,8 +88,8 @@
     function registerBtn() {
 
         // 领取任务
-        $("#rbtn").click(function(){
-            $.post("/task/"+$("#rbtn").val()+"/receive",
+        $(".rbtn").click(function(){
+            $.post("/task/"+$(this).val()+"/receive",
                 {
                     uid : $.cookie('uid')
                 },
@@ -102,8 +102,9 @@
 
         // 做任务
 
-        $("#dbtn").click(function(){
-            $.post("/task/"+$("#dbtn").val()+"/finish",
+        $(".dbtn").click(function(){
+
+            $.post("/task/"+$(this).val()+"/finish",
                 {
                     uid : $.cookie('uid')
                 },
@@ -119,9 +120,9 @@
 </script>
 <body>
 <h2>Hello World!</h2>
-<div  class="taskTitle" >新手任务</div><hr/>
+<div class="taskTitle" >新手任务</div><hr/>
 <dev class="task" id="onceTask"></dev>
-<div  class="taskTitle" >常见任务</div><hr/>
+<div class="taskTitle" >常见任务</div><hr/>
 <dev class="task" id="generalTask"></dev>
 </body>
 </html>

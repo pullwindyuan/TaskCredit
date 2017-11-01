@@ -8,39 +8,38 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//@Component
-public class TaskModelManagerImpl implements TaskModelManager, InitializingBean {
-
-    private static final String INDEX_TID = "task_tid_";
-    private static final String INDEX_TYPE = "task_type_";
-    private static final String INDEX_LIST = "task_list_";
+@Component
+public class TaskModelManagerImpl implements TaskModelManager {
 
     @Autowired
     private TaskModelDao taskModelDao;
 
-
-    public void clearUserCache() {
-
+    @Cacheable(value="task", key = "task")
+    public  Map<Integer, TaskModel> getMap() {
+        Map<Integer, TaskModel> map = new HashMap<Integer, TaskModel>();
+        List<TaskModel> taskModelList = taskModelDao.getAll();
+        for (TaskModel taskModel : taskModelList) {
+            map.put(taskModel.getTid(), taskModel);
+        }
+        return map;
     }
 
-    @Cacheable(value="task", key="#tid")
     public TaskModel getTaskModelByTid(int tid) {
-        return taskModelDao.getByTid(tid);
+        return getMap().get(tid);
     }
 
-    public List<TaskModel> getTaskModelListByType(int type) {
-        return null;
+    public List<TaskModel> getAll() {
+        Map<Integer, TaskModel> map = getMap();
+        List<TaskModel> list = new ArrayList<TaskModel>();
+        for (TaskModel model : map.values()) {
+            list.add(model);
+        }
+        return list;
     }
 
-    private void init() {
-
-    }
-
-    public void afterPropertiesSet() throws Exception {
-
-    }
 }
