@@ -49,7 +49,6 @@ public class TaskController {
             produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public ResponseDto getTaskList(String uid) {
-
         return taskService.getTaskList(uid);
     }
 }

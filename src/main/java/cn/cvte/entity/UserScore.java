@@ -58,4 +58,8 @@ public class UserScore implements Serializable {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+    public void alterScore(int score) {
+        this.score += score;
+    }
 }

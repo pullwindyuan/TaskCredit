@@ -66,6 +66,14 @@ public class TaskRecord {
         this.step = step;
     }
 
+    public void alterStep(int step) {
+        this.step += step;
+    }
+
+    public void alterScore(int score) {
+        this.score += score;
+    }
+
     public int getScore() {
         return score;
     }

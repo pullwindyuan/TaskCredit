@@ -2,17 +2,17 @@ package cn.cvte.dto;
 
 import cn.cvte.enums.ResultCode;
 
-import java.util.Map;
 
 public class ResponseDto {
     private int code;
     private String msg;
-    private Map<String, Object> data;
+    //private Map<String, Object> data;
+    private Object data;
 
     public ResponseDto() {
     }
 
-    public ResponseDto(int code, String msg, Map<String, Object> data) {
+    public ResponseDto(int code, String msg, Object data) {
         this.code = code;
         this.msg = msg;
         this.data = data;
@@ -39,16 +39,16 @@ public class ResponseDto {
         this.msg = msg;
     }
 
-    public Map<String, Object> getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(Map<String, Object> data) {
+    public void setData(Object data) {
         this.data = data;
     }
 
-    public static ResponseDto success(Map<String, Object> map) {
-        return new ResponseDto(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg(), map);
+    public static ResponseDto success(Object data) {
+        return new ResponseDto(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg(), data);
     }
 
     public static ResponseDto success() {
@@ -71,4 +71,12 @@ public class ResponseDto {
         return new ResponseDto(ResultCode.ERRO.getCode(), msg);
     }
 
+    @Override
+    public String toString() {
+        return "ResponseDto{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }
