@@ -103,7 +103,7 @@ public class TaskServiceImpl implements TaskService{
         for (TaskModel taskModel : modelList) {
             int tid = taskModel.getTid();
             TaskRecord taskRecord = taskRecordDao.getRecordByUidAndTid(uid, tid);
-            // 为空则创建一个初始值，不写入数据
+            // 为空则创建一个初始值，不写入数据库
             if (taskRecord == null) {
                 taskRecord = TaskRecord.initCreateRecord(uid, tid);
             }
@@ -111,7 +111,6 @@ public class TaskServiceImpl implements TaskService{
             int joinNum = taskRecordDao.getNumByTid(tid);
             taskList.add(new Task(taskRecord, taskModel, joinNum));
         }
-        Map<String, Object> map = new HashMap<String, Object>();
         return ResponseDto.success(taskList);
     }
 

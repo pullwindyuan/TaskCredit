@@ -2,7 +2,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:cache="http://www.springframework.org/schema/cache"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
@@ -41,7 +40,7 @@
         <!--<property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
     </bean>
 
-    <context:component-scan base-package="cn.cvte"/>
+    <context:component-scan base-package="cn.cvte.dao"/>
 
 
     <!--<context:property-placeholder location="classpath:jdbc.properties"/>-->
@@ -72,59 +71,5 @@
     <!--&lt;!&ndash;下面这个省略掉的话也不会出错，建议保留它&ndash;&gt;-->
     <!--<property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
     <!--</bean>-->
-
-    <!--<cache:annotation-driven />-->
-
-    <!--&lt;!&ndash; redis 相关配置 &ndash;&gt;-->
-    <!--<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">-->
-        <!--<property name="maxIdle" value="${redis.maxIdle}" />-->
-        <!--<property name="maxWaitMillis" value="${redis.maxWait}" />-->
-        <!--<property name="testOnBorrow" value="${redis.testOnBorrow}" />-->
-    <!--</bean>-->
-
-    <!--<bean id="JedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"-->
-         <!--&gt;-->
-        <!--<property name="hostName" value="${redis.host}"/>-->
-        <!--<property name="port" value="${redis.port}"/>-->
-        <!--<property name="poolConfig" ref="poolConfig"/>-->
-    <!--</bean>-->
-
-    <!--<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">-->
-        <!--<property name="connectionFactory" ref="JedisConnectionFactory" />-->
-    <!--</bean>-->
-
-    <!--&lt;!&ndash; spring自己的缓存管理器，这里定义了缓存位置名称 ，即注解中的value &ndash;&gt;-->
-    <!--<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">-->
-        <!--<property name="caches">-->
-            <!--<set>-->
-                <!--&lt;!&ndash; 这里可以配置多个redis &ndash;&gt;-->
-                <!--&lt;!&ndash; <bean class="com.cn.util.RedisCache">-->
-                     <!--<property name="redisTemplate" ref="redisTemplate" />-->
-                     <!--<property name="name" value="default"/>-->
-                <!--</bean> &ndash;&gt;-->
-                <!--<bean class="cn.cvte.dao.cache.RedisCache">-->
-                    <!--<property name="redisTemplate" ref="redisTemplate" />-->
-                    <!--<property name="name" value="common"/>-->
-                    <!--&lt;!&ndash; common名称要在类或方法的注解中使用 &ndash;&gt;-->
-                <!--</bean>-->
-            <!--</set>-->
-        <!--</property>-->
-    <!--</bean>-->
-
-    <bean id="dataJedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
-        <property name="maxTotal" value="1000"/>
-        <property name="maxIdle" value="500"/>
-        <property name="maxWaitMillis" value="10000"/>
-        <property name="testOnBorrow" value="false"/>
-        <property name="testOnReturn" value="false"/>
-        <property name="blockWhenExhausted" value="false"/>
-    </bean>
-
-    <bean class="cn.cvte.dao.RedisDao">
-        <constructor-arg index="0" ref="dataJedisPoolConfig"/>
-        <constructor-arg index="1" value="119.29.53.102"/>
-        <constructor-arg index="2" value="6379"/>
-        <constructor-arg index="3" value=""/>
-    </bean>
 
 </beans>

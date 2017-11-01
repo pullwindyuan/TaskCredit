@@ -6,6 +6,7 @@ import cn.cvte.manager.TaskModelManager;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -14,12 +15,13 @@ import java.util.List;
 import java.util.Map;
 
 @Component
+@Lazy
 public class TaskModelManagerImpl implements TaskModelManager {
 
     @Autowired
     private TaskModelDao taskModelDao;
 
-    @Cacheable(value="task", key = "task")
+    @Cacheable(value = "common", key = "task")
     public  Map<Integer, TaskModel> getMap() {
         Map<Integer, TaskModel> map = new HashMap<Integer, TaskModel>();
         List<TaskModel> taskModelList = taskModelDao.getAll();
