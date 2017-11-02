@@ -45,7 +45,6 @@ public class UserController {
             produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public ResponseDto getScore(String uid){
-        System.out.println(uid);
         return userService.getScore(uid);
     }
 
