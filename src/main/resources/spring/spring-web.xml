@@ -4,7 +4,7 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:cache="http://www.springframework.org/schema/cache" xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
@@ -12,11 +12,12 @@
        http://www.springframework.org/schema/mvc
        http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/aop
-        http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+        http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
-    <import resource="spring-dao.xml"/>
 
-    <cache:annotation-driven />
+
+    <task:annotation-driven />
+    <!--<cache:annotation-driven />-->
     <!-- 配置springMVC -->
     <!-- 开SpringMVC注解模式 -->
     <!--1.简化配置：
@@ -49,14 +50,8 @@
         1.自动注册DefaultAnnotationHandlerMapping，AnnotationMethodHandlerAdapter
         2.提供一系列数据绑定，数据和日期的format，xml、json默认的读写支持
      -->
-    <mvc:annotation-driven/>
     <aop:aspectj-autoproxy/>
 
-    <!-- 2.静态资源默认servlet配置
-        1.加入对静态资源的处理：js,gif,png
-        2.允许使用“/”做整体映射
-    -->
-    <mvc:default-servlet-handler/>
 
     <!-- 3.配置jsp显示的ViewResolver -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -66,44 +61,22 @@
         <property name="suffix" value=".jsp"/>
 
     </bean>
+    <bean id="dataJedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="1000"/>
+        <property name="maxIdle" value="500"/>
+        <property name="maxWaitMillis" value="10000"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+        <property name="blockWhenExhausted" value="false"/>
+    </bean>
 
+    <bean class="cn.cvte.dao.RedisDao" lazy-init="false">
+        <constructor-arg index="0" ref="dataJedisPoolConfig"/>
+        <constructor-arg index="1" value="119.29.53.102"/>
+        <constructor-arg index="2" value="6379"/>
+        <constructor-arg index="3" value=""/>
+    </bean>
 
-    <!--<context:property-placeholder location="classpath:jdbc.properties"/>-->
-    <!--&lt;!&ndash;配置数据库的连接池&ndash;&gt;-->
-    <!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">-->
-    <!--&lt;!&ndash;配置连接池的属性&ndash;&gt;-->
-    <!--<property name="driverClass" value="${jdbc.driver}"/>-->
-    <!--<property name="jdbcUrl" value="${jdbc.url}"/>-->
-    <!--<property name="user" value="${username}"/>-->
-    <!--<property name="password" value="${password}"/>-->
-
-    <!--&lt;!&ndash; c3p0连接池的私有属性&ndash;&gt;-->
-    <!--<property name="maxPoolSize" value="100"/>-->
-    <!--<property name="minPoolSize" value="50"/>-->
-    <!--<property name="autoCommitOnClose" value="false"/>-->
-    <!--&lt;!&ndash; 获取连接，超时时间设置 &ndash;&gt;-->
-    <!--<property name="checkoutTimeout" value="100000"/>-->
-    <!--&lt;!&ndash; 当获取连接失败，重试次数 &ndash;&gt;-->
-    <!--<property name="acquireRetryAttempts" value="2"/>-->
-
-    <!--</bean>-->
-
-
-    <!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" >-->
-
-        <!--&lt;!&ndash; 加载mybatis的配置信息 &ndash;&gt;-->
-        <!--&lt;!&ndash;<property name="configLocation" value="cn/labelnet/mybatis/config/SqlmapDaoConfig.xml"></property>&ndash;&gt;-->
-
-        <!--&lt;!&ndash; 加载数据源  dataSource&ndash;&gt;-->
-        <!--<property name="dataSource" ref="dataSource"></property>-->
-
-    <!--</bean>-->
-
-    <!--<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
-        <!--&lt;!&ndash;com.dao是mapper类所在的包&ndash;&gt;-->
-        <!--<property name="basePackage" value="cn.pingweb.mapper"/>-->
-        <!--&lt;!&ndash;下面这个省略掉的话也不会出错，建议保留它&ndash;&gt;-->
-        <!--<property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
-    <!--</bean>-->
+    <import resource="spring-dao.xml"/>
 
 </beans>

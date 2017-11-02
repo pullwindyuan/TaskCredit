@@ -41,8 +41,6 @@
         <!--<property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
     </bean>
 
-    <context:component-scan base-package="cn.cvte"/>
-
 
     <!--<context:property-placeholder location="classpath:jdbc.properties"/>-->
     <!--&lt;!&ndash;配置数据库的连接池&ndash;&gt;-->
@@ -111,20 +109,20 @@
         <!--</property>-->
     <!--</bean>-->
 
-    <bean id="dataJedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
-        <property name="maxTotal" value="1000"/>
-        <property name="maxIdle" value="500"/>
-        <property name="maxWaitMillis" value="10000"/>
-        <property name="testOnBorrow" value="false"/>
-        <property name="testOnReturn" value="false"/>
-        <property name="blockWhenExhausted" value="false"/>
-    </bean>
+    <!--<bean id="dataJedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">-->
+        <!--<property name="maxTotal" value="1000"/>-->
+        <!--<property name="maxIdle" value="500"/>-->
+        <!--<property name="maxWaitMillis" value="10000"/>-->
+        <!--<property name="testOnBorrow" value="false"/>-->
+        <!--<property name="testOnReturn" value="false"/>-->
+        <!--<property name="blockWhenExhausted" value="false"/>-->
+    <!--</bean>-->
 
-    <bean class="cn.cvte.dao.RedisDao">
-        <constructor-arg index="0" ref="dataJedisPoolConfig"/>
-        <constructor-arg index="1" value="119.29.53.102"/>
-        <constructor-arg index="2" value="6379"/>
-        <constructor-arg index="3" value=""/>
-    </bean>
+    <!--<bean id="redisDao" class="cn.cvte.dao.RedisDao" lazy-init="false">-->
+        <!--<constructor-arg index="0" ref="dataJedisPoolConfig"/>-->
+        <!--<constructor-arg index="1" value="119.29.53.102"/>-->
+        <!--<constructor-arg index="2" value="6379"/>-->
+        <!--<constructor-arg index="3" value=""/>-->
+    <!--</bean>-->
 
 </beans>

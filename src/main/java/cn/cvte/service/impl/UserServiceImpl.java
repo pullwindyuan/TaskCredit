@@ -29,4 +29,15 @@ public class UserServiceImpl implements UserService {
         String md5 = DigestUtils.md5DigestAsHex(base.getBytes());
         return md5;
     }
+
+    /*
+        查看积分
+     */
+    public ResponseDto getScore(String uid) {
+        UserScore userScore = userScoreDao.getUserByUid(uid);
+        if (userScore != null) {
+            return ResponseDto.success(userScore.getScore());
+        }
+        return ResponseDto.fail();
+    }
 }

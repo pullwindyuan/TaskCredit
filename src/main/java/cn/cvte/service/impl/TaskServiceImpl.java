@@ -1,10 +1,12 @@
 package cn.cvte.service.impl;
 
+import cn.cvte.dao.mapper.TaskHistoryDao;
 import cn.cvte.dao.mapper.TaskModelDao;
 import cn.cvte.dao.mapper.TaskRecordDao;
 import cn.cvte.dao.mapper.UserScoreDao;
 import cn.cvte.dto.ResponseDto;
 import cn.cvte.dto.Task;
+import cn.cvte.entity.TaskHistory;
 import cn.cvte.entity.TaskModel;
 import cn.cvte.entity.TaskRecord;
 import cn.cvte.entity.UserScore;
@@ -33,6 +35,9 @@ public class TaskServiceImpl implements TaskService{
     @Autowired
     private TaskRecordDao taskRecordDao;
 
+    @Autowired
+    private TaskHistoryDao taskHistoryDao;
+
     /**
      * 领取任务
      * @param uid
@@ -59,12 +64,11 @@ public class TaskServiceImpl implements TaskService{
             taskRecord.setState(TaskRecord.STATE_ING);
             taskRecordDao.updateRecord(taskRecord);
         }
-
+        // 记录操作日志
+        taskHistoryDao.insert(new TaskHistory(uid, tid,
+                taskRecord.getStep(), taskRecord.getScore(), "领取任务"));
         return ResponseDto.success();
     }
-
-    // TODO 领取完任务后，前端的数据状态如何更新，是否重新获取一次数据状态
-
 
     public ResponseDto doTask(String uid, int tid) {
         TaskRecord taskRecord = taskRecordDao.getRecordByUidAndTid(uid, tid);
@@ -89,30 +93,54 @@ public class TaskServiceImpl implements TaskService{
 
         taskRecordDao.updateRecord(taskRecord);
         userScoreDao.updateByUid(userScore);
+        // 记录操作日志
+        taskHistoryDao.insert(new TaskHistory(uid, tid,
+                taskRecord.getStep(), taskRecord.getScore(), "做任务"));
 
-        // TODO 加入人数可以redis缓存
         int joinNum = taskRecordDao.getNumByTid(tid);
         new Task(taskRecord, taskModel, joinNum);
         return ResponseDto.success();
     }
 
+
     public ResponseDto getTaskList(String uid) {
         // List<TaskModel> modelList = taskModelDao.getAll();
         List<TaskModel> modelList = taskModelManager.getAll();
         List<Task> taskList = new ArrayList<Task>();
+        List<TaskRecord> taskRecordList = taskRecordDao.getRecordByUid(uid);
+        Map<String, TaskRecord> taskRecordMap = trans2Map(taskRecordList);
         for (TaskModel taskModel : modelList) {
             int tid = taskModel.getTid();
-            TaskRecord taskRecord = taskRecordDao.getRecordByUidAndTid(uid, tid);
+            // TODO 设计好sql
+            // TaskRecord taskRecord = taskRecordDao.getRecordByUidAndTid(uid, tid);
+            TaskRecord taskRecord = getTaskRecord(taskRecordMap, uid, tid);
             // 为空则创建一个初始值，不写入数据库
             if (taskRecord == null) {
                 taskRecord = TaskRecord.initCreateRecord(uid, tid);
             }
-            // TODO 获得参加任务总人数
             int joinNum = taskRecordDao.getNumByTid(tid);
             taskList.add(new Task(taskRecord, taskModel, joinNum));
         }
         return ResponseDto.success(taskList);
     }
+
+    private String getKey(String uid, int tid) {
+        return uid + "_" + tid;
+    }
+
+    private Map<String, TaskRecord> trans2Map(List<TaskRecord> taskRecordList) {
+        Map<String, TaskRecord> map = new HashMap<String, TaskRecord>();
+        for (TaskRecord taskRecord : taskRecordList) {
+            String key = getKey(taskRecord.getUid(), taskRecord.getTid());
+            map.put(key, taskRecord);
+        }
+        return map;
+    }
+
+    private TaskRecord getTaskRecord(Map<String, TaskRecord> taskRecordMap, String uid, int tid) {
+        return taskRecordMap.get(getKey(uid, tid));
+    }
+
 
     public ResponseDto getTaskDetail(String uid, int tid) {
         return ResponseDto.success();

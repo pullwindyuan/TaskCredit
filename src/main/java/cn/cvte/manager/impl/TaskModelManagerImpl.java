@@ -1,47 +1,43 @@
 package cn.cvte.manager.impl;
 
+import cn.cvte.dao.RedisDao;
 import cn.cvte.dao.mapper.TaskModelDao;
 import cn.cvte.entity.TaskModel;
 import cn.cvte.manager.TaskModelManager;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 @Component
-@Lazy
 public class TaskModelManagerImpl implements TaskModelManager {
 
     @Autowired
     private TaskModelDao taskModelDao;
 
-    @Cacheable(value = "common", key = "task")
-    public  Map<Integer, TaskModel> getMap() {
-        Map<Integer, TaskModel> map = new HashMap<Integer, TaskModel>();
-        List<TaskModel> taskModelList = taskModelDao.getAll();
-        for (TaskModel taskModel : taskModelList) {
-            map.put(taskModel.getTid(), taskModel);
-        }
-        return map;
-    }
+    @Autowired
+    private RedisDao redisDao;
+
+    private static final String KEY = "task";
 
     public TaskModel getTaskModelByTid(int tid) {
-        return getMap().get(tid);
+        TaskModel taskModel = redisDao.get("task_" +tid);
+        if (taskModel == null) {
+            taskModel = taskModelDao.getByTid(tid);
+            redisDao.put("task_"+tid, taskModel);
+        }
+        return taskModel;
     }
 
     public List<TaskModel> getAll() {
-        Map<Integer, TaskModel> map = getMap();
-        List<TaskModel> list = new ArrayList<TaskModel>();
-        for (TaskModel model : map.values()) {
-            list.add(model);
+        List<TaskModel> taskModelList = redisDao.getAll("task_all");
+        if (taskModelList== null || taskModelList.size()==0) {
+            taskModelList = taskModelDao.getAll();
+            redisDao.putAll("task_all", taskModelList);
         }
-        return list;
+        Collections.sort(taskModelList);
+        return taskModelList;
     }
 
 }

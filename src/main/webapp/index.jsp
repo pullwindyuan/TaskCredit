@@ -24,18 +24,38 @@
                 if (data != "" && data.msg=='success') {
                     alert("登录success");
                 }
+                getScore();
                 getTaskList();
+
             },
             erro: function (data) {
                 alert("erro");
             }
         });
     } else {
+        getScore();
         getTaskList();
     }
 
     function input() {
         return window.prompt("输入手机号登录", "testPhone");
+    }
+
+    function getScore() {
+        $.ajax({
+            type: "get",
+            dataType: "json",
+            url: '/user/score',
+            data: {uid: $.cookie('uid')},
+            success: function (data) {
+                if (data != "") {
+                    $("#score").html("用户积分："+data.data);
+                }
+            },
+            erro: function (data) {
+                alert("erro");
+            }
+        });
     }
 
     function getTaskList() {
@@ -46,8 +66,12 @@
             data: {uid: $.cookie('uid')},
             success: function (data) {
                 if (data != "") {
-                    alert("success");
+                    //alert("success");
                     var list = data.data;
+                    if (data.msg == 'fail') {
+                        alert("参数异常");
+                        return;
+                    }
                     for(var i in list) {
                         var data = list[i];
                         var node;
@@ -94,8 +118,13 @@
                     uid : $.cookie('uid')
                 },
                 function(data,status){
-                    alert("数据: \n" + data + "\n状态: " + status);
+                    if (data.msg == 'fail') {
+                        alert("参数异常");
+                        return;
+                    }
                     $(".task").html('');
+                    alert("执行成功");
+                    getScore();
                     getTaskList();
                 });
         });
@@ -109,8 +138,13 @@
                     uid : $.cookie('uid')
                 },
                 function(data,status){
-                    alert("数据: \n" + data + "\n状态: " + status);
+                    if (data.msg == 'fail') {
+                        alert("参数异常");
+                        return;
+                    }
                     $(".task").html('');
+                    alert("执行成功");
+                    getScore();
                     getTaskList();
                 });
         });
@@ -119,10 +153,10 @@
 
 </script>
 <body>
-<h2>Hello World!</h2>
-<div class="taskTitle" >新手任务</div><hr/>
-<dev class="task" id="onceTask"></dev>
-<div class="taskTitle" >常见任务</div><hr/>
-<dev class="task" id="generalTask"></dev>
+    <h2 id="score">用户积分：0</h2>
+    <div class="taskTitle" >新手任务</div><hr/>
+    <dev class="task" id="onceTask"></dev>
+    <div class="taskTitle" >常见任务</div><hr/>
+    <dev class="task" id="generalTask"></dev>
 </body>
 </html>

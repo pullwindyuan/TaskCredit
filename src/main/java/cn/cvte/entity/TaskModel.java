@@ -2,7 +2,7 @@ package cn.cvte.entity;
 
 import org.springframework.util.StringUtils;
 
-public class TaskModel {
+public class TaskModel implements Comparable<TaskModel>{
     private int tid;
     private String desc;
     private int type;
@@ -51,4 +51,7 @@ public class TaskModel {
         return result;
     }
 
+    public int compareTo(TaskModel o) {
+        return this.tid - o.getTid();
+    }
 }
