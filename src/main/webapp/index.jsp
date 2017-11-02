@@ -96,7 +96,7 @@
                         $(node).append("<div>"+list[i].desc
                             + stateNode + scoreNode
                             + joinNumNode + rbtn + dbtn
-                            + "</div>");
+                            + "</div><br/>");
 
                     }
                     registerBtn();
