@@ -18,7 +18,7 @@
         $.ajax({
             type: "post",
             dataType: "json",
-            url: '/user/login',
+            url: '/task/user/login',
             data: {phone: phone},
             success: function (data) {
                 if (data != "" && data.msg=='success') {
@@ -45,7 +45,7 @@
         $.ajax({
             type: "get",
             dataType: "json",
-            url: '/user/score',
+            url: '/task/user/score',
             data: {uid: $.cookie('uid')},
             success: function (data) {
                 if (data != "") {

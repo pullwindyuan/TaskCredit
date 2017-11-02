@@ -52,6 +52,20 @@
      -->
     <aop:aspectj-autoproxy/>
 
+    <mvc:interceptors>
+        <!-- 配置登陆拦截器 -->
+        <mvc:interceptor>
+            <!--拦截后台页面的请求-->
+            <mvc:mapping path="/**"/>
+            <!--<mvc:mapping path="/test/testMethod"/>-->
+            <!--不拦截登录页和登录的请求-->
+            <mvc:exclude-mapping path="*.jsp"/>
+            <mvc:exclude-mapping path="/task/user/login"/>
+            <!--<bean class="com.fuzhu.Interceptor.Myinterceptor"></bean>-->
+            <bean class="cn.cvte.interceptor.VarifyTokenInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 
     <!-- 3.配置jsp显示的ViewResolver -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

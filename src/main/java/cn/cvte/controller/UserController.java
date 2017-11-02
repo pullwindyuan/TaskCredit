@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/task/user")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -28,11 +28,20 @@ public class UserController {
     public ResponseDto login(@Param("phone")String phone,
                              HttpServletRequest request, HttpServletResponse response ){
 
+        String uid = null;
         try {
-            Cookie cookie = new Cookie("uid", userService.login(phone));//创建新cookie
+            uid = userService.login(phone);
+            Cookie cookie = new Cookie("uid", uid);//创建新cookie
             cookie.setMaxAge(5 * 60);// 设置存在时间为5分钟
             cookie.setPath("/");//设置作用域
             response.addCookie(cookie);//将cookie添加到response的cookie数组中返回给客户端
+
+
+            Cookie tokenCookie = new Cookie("token", userService.setToken(uid));//创建新cookie
+            tokenCookie.setMaxAge(5 * 60);// 设置存在时间为5分钟
+            tokenCookie.setPath("/");//设置作用域
+            response.addCookie(tokenCookie);//将cookie添加到response的cookie数组中返回给客户端
+
         } catch (Exception e) {
             ResponseDto.fail();
         }
