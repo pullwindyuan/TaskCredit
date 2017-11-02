@@ -66,11 +66,11 @@ public class TaskRecord {
         this.step = step;
     }
 
-    public void alterStep(int step) {
+    public synchronized void alterStep(int step) {
         this.step += step;
     }
 
-    public void alterScore(int score) {
+    public synchronized void alterScore(int score) {
         this.score += score;
     }
 

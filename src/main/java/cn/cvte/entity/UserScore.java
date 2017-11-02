@@ -61,7 +61,7 @@ public class UserScore implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public void alterScore(int score) {
+    public synchronized void alterScore(int score) {
         this.score += score;
     }
 }
