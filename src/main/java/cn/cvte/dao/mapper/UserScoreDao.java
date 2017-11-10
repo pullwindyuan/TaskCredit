@@ -13,7 +13,7 @@ public interface UserScoreDao {
     @Select("select * from user_score where uid=#{uid}")
     public UserScore getUserByUid(String uid);
 
-    @Update("update user_score set score=#{score},updateTime=#{updateTime} where uid=#{uid}")
+    @Update("update user_score set score=#{score},updateTime=#{updateTime} where uid=#{uid} for update")
     public int updateByUid(UserScore userScore);
 
 }

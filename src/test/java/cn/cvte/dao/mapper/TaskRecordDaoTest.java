@@ -6,6 +6,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -31,9 +33,13 @@ public class TaskRecordDaoTest {
         List<TaskRecord> taskRecordList = taskRecordDao.getRecordByUid("testUid");
         System.out.println(taskRecordList.size());
     }
+    //@Transactional(propagation = Propagation.REQUIRED)
     @Test
     public void getRecordByUidAndTid() throws Exception {
         TaskRecord record = taskRecordDao.getRecordByUid("testUid").get(0);
+        System.out.println(taskRecordDao.getRecordByUidAndTid(record.getUid(), record.getTid()));
+        Thread.sleep(20000);
+        TaskRecord record2 = taskRecordDao.getRecordByUid("testUid").get(0);
         System.out.println(taskRecordDao.getRecordByUidAndTid(record.getUid(), record.getTid()));
     }
     @Test

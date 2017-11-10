@@ -14,6 +14,7 @@ import cn.cvte.manager.TaskModelManager;
 import cn.cvte.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +45,7 @@ public class TaskServiceImpl implements TaskService{
      * @param tid
      * @return
      */
+    @Transactional
     public ResponseDto receiveTask(String uid, int tid) {
         TaskRecord taskRecord = taskRecordDao.getRecordByUidAndTid(uid, tid);
         //TaskModel taskModel = taskModelDao.getByTid(tid);
@@ -70,6 +72,7 @@ public class TaskServiceImpl implements TaskService{
         return ResponseDto.success();
     }
 
+    @Transactional
     public ResponseDto doTask(String uid, int tid) {
         TaskRecord taskRecord = taskRecordDao.getRecordByUidAndTid(uid, tid);
         // TaskModel taskModel = taskModelDao.getByTid(tid);

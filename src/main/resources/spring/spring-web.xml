@@ -86,7 +86,7 @@
 
     <bean class="cn.cvte.dao.RedisDao" lazy-init="false">
         <constructor-arg index="0" ref="dataJedisPoolConfig"/>
-        <constructor-arg index="1" value="119.29.53.102"/>
+        <constructor-arg index="1" value="localhost"/>
         <constructor-arg index="2" value="6379"/>
         <constructor-arg index="3" value=""/>
     </bean>

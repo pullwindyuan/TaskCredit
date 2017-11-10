@@ -18,7 +18,7 @@ public interface TaskRecordDao {
     @Select("select * from task_record where uid=#{uid}")
     public List<TaskRecord> getRecordByUid(String uid);
 
-    @Select("select * from task_record where uid=#{uid} and tid=#{tid}")
+    @Select("select * from task_record where uid=#{uid} and tid=#{tid} for update")
     public TaskRecord getRecordByUidAndTid(@Param("uid") String uid, @Param("tid") int tid);
 
     @Select("select count(*) from task_record where tid=#{tid} and state>-1")
